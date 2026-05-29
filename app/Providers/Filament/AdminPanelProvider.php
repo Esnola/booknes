@@ -30,9 +30,18 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->passwordReset()
             ->profile()
-            ->colors([
-                'primary' => Color::Lime,
-            ])
+          ->colors([
+            'primary' => Color::Amber,
+            'success' => Color::Green,
+            'warning' => Color::Amber,
+            'danger' => Color::Red,
+            'info' => Color::Blue,
+            'gray' => Color::Zinc,
+          ])
+          ->brandName('Booknest')
+          ->brandLogo('/images/booknest-logo.png')
+          ->brandLogoHeight('2rem')
+          ->favicon('/images/favicon.ico')
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\Filament\Admin\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
