@@ -2,16 +2,21 @@
 
 namespace App\Filament\Admin\Resources\Books;
 
-use App\Filament\Admin\Resources\Books\Pages\CreateBook;
-use App\Filament\Admin\Resources\Books\Pages\EditBook;
-use App\Filament\Admin\Resources\Books\Pages\ListBooks;
-use App\Filament\Admin\Resources\Books\Schemas\BookForm;
-use App\Filament\Admin\Resources\Books\Tables\BooksTable;
+use App\Filament\Admin\Resources\Books\Pages\ManageBooks;
 use App\Models\Book;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class BookResource extends Resource
@@ -24,27 +29,56 @@ class BookResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return BookForm::configure($schema);
+        return $schema
+            ->components([
+                TextInput::make('title')
+                    ->required(),
+                TextInput::make('author')
+                    ->required(),
+                FileUpload::make('image')
+                    ->image(),
+                Textarea::make('description')
+                    ->columnSpanFull(),
+            ]);
     }
 
     public static function table(Table $table): Table
     {
-        return BooksTable::configure($table);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+        return $table
+            ->recordTitleAttribute('title')
+            ->columns([
+                TextColumn::make('title')
+                    ->searchable(),
+                TextColumn::make('author')
+                    ->searchable(),
+                ImageColumn::make('image'),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListBooks::route('/'),
-            'create' => CreateBook::route('/create'),
-            'edit' => EditBook::route('/{record}/edit'),
+            'index' => ManageBooks::route('/'),
         ];
     }
 }

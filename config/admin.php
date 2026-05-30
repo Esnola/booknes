@@ -1,8 +1,7 @@
 <?php
 
-  
-  return [
-    'emails'=>[
-      'juanjota@example.com'
-    ],
-  ];
+return [
+    'emails' => [
+        'shruti@example.com'
+    ]
+];

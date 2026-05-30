@@ -10,10 +10,13 @@ class ViewBook extends ViewRecord
 {
     protected static string $resource = BookResource::class;
 
-    protected function getHeaderActions(): array
+    public function getHeading(): string
     {
-        return [
-            EditAction::make(),
-        ];
+        return '';
+    }
+
+    public function getTitle(): string
+    {
+        return $this->record->title;
     }
 }

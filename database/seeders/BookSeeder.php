@@ -135,7 +135,7 @@
           'image' => 'covers/20.png',
           'description' => 'The world froze when the sky shattered into silence. Carrying only a lantern, a wanderer journeys through broken lands seeking answers, unaware that hope still glimmers within the quiet darkness.',
         ],
-        
+      
       ];
       
       foreach ($books as $book) {
